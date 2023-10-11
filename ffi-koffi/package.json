@@ -1,0 +1,11 @@
+{
+  "name": "example-ffi-koffi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "install": "rm -rf target && cargo build --release"
+  },
+  "dependencies": {
+    "koffi": "^2.6.1"
+  }
+}

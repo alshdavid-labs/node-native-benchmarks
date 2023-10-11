@@ -1,0 +1,12 @@
+{
+  "name": "example-wasm",
+  "version": "1.0.0",
+  "main": "./pkg/example_wasm.js",
+  "types": "./pkg/example_wasm.d.ts",
+  "scripts": {
+    "install": "rm -rf target pkg && wasm-pack build --target nodejs --release"
+  },
+  "dependencies": {
+    "ffi-napi": "^4.0.3"
+  }
+}

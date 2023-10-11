@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "workspaces": [
+    "_benchmark",
+    "addon",
+    "addon-c",
+    "ffi-koffi",
+    "ffi-napi",
+    "javascript",
+    "wasm"
+  ],
+  "scripts": {
+    "clean": "rm -rf node_modules **/node_modules **/pkg **/target **/build",
+    "build": "npm run clean && npm install",
+    "start": "node ./_benchmark/index.js",
+    "install": "echo \"generating cases.json\" && node ./_benchmark/data/generate-cases.js"
+  }
+}
