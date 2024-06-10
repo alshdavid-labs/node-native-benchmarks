@@ -36,12 +36,12 @@ else \
 
 build:
   cargo build
-  cargo build --target wasm32-unknown-unknown {{profile_cargo}} --package wasm
+  cd wasm && wasm-pack build --target nodejs {{profile_cargo}}
   cd addon_c && npm run build
   cp target/{{profile}}/libaddon_napi.{{dylib}} addon_napi/index.node
   cp target/{{profile}}/libaddon_neon.{{dylib}} addon_neon/index.node
   cp target/{{profile}}/libffi_koffi.{{dylib}} ffi_koffi/index.node
   cp target/{{profile}}/libffi_napi.{{dylib}} ffi_napi/index.node
-  cp target/wasm32-unknown-unknown/{{profile}}/wasm.wasm wasm
   
-
+bench:
+  node "./_benchmark/index.js"

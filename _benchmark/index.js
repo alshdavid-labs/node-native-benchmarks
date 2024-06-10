@@ -5,12 +5,13 @@ const fs = require('fs')
 const path = require('path')
 
 const benchmarks = [
-  'addon',
-  'addon-c',
-  'ffi-koffi',
-  'wasm',
-  'javascript',
-  'ffi-napi',
+  "addon_c",
+  "addon_napi",
+  "addon_neon",
+  "ffi_koffi",
+  "ffi_napi",
+  "javascript",
+  "wasm",
 ]
 
 const LIMIT = process.env.BENCH_LIMIT ? parseInt(process.env.BENCH_LIMIT) : null
