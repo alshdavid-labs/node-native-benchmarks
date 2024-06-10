@@ -1,5 +1,5 @@
 
-import { data } from './data/index.js'
+import { cases } from './generate-cases.js'
 import { Benchmark } from './benchmark.js'
 import { existsSync, rmSync, appendFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -19,7 +19,7 @@ const benchmarks = {
   wasm,
 }
 
-const RETRIES = 3
+const RETRIES = 5
 const LIMIT = process.env.BENCH_LIMIT ? parseInt(process.env.BENCH_LIMIT) : null
 
 const results = []
@@ -37,8 +37,8 @@ for (const [NAME, lib] of Object.entries(benchmarks)) {
   for (const func of funcs) {
     for (let i = 0; i < RETRIES; i++) {
       b.start(NAME)
-      for (let i = 0; i < data.length; i++) {
-        const result = func(...data[i])
+      for (let i = 0; i < cases.length; i++) {
+        const result = func(...cases[i])
         if (result === undefined) {
           throw new Error('Invalid result')
         }
@@ -57,8 +57,8 @@ process.stdout.write('\n')
 for (const NAME of Object.keys(benchmarks)) {
   console.log(`Processing Results ${NAME}`)
   results.push({
-    Name: NAME,
-    'Min': b.min(NAME).femtoseconds,
+    'Name (milliseconds)': NAME,
+    'Min': b.min(NAME).milliseconds,
     // 'Low Quartile': b.quartile(NAME, 0.25).milliseconds,
     // 'High Quartile': b.quartile(NAME, 0.75).milliseconds,
     // 'p99': b.quartile(NAME, 0.99).milliseconds,

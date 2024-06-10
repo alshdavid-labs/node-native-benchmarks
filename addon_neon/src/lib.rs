@@ -35,5 +35,6 @@ fn main(mut cx: ModuleContext) -> NeonResult<()> {
     cx.export_function("add", add)?;
     cx.export_function("multiply", multiply)?;
     cx.export_function("divide", divide)?;
+    neon::registered().export(&mut cx)?;
     Ok(())
 }

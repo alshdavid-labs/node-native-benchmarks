@@ -34,8 +34,12 @@ if \
 else \
   { "" }
 
+default:
+  profile=release just build
+  CASES=3000000 just bench
+
 build:
-  cargo build
+  cargo build {{profile_cargo}}
   cd wasm && wasm-pack build --target nodejs {{profile_cargo}}
   cd addon_c && npm run build
   cp target/{{profile}}/libaddon_napi.{{dylib}} addon_napi/index.node
