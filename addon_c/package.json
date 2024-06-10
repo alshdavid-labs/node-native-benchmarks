@@ -1,9 +1,9 @@
 {
-  "name": "example-addon-c",
+  "name": "addon_c",
   "version": "1.0.0",
   "main": "build/Release/addon.node",
   "scripts": {
-    "install": "node-gyp rebuild"
+    "build": "node-gyp rebuild"
   },
   "gypfile": true,
   "dependencies": {

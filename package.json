@@ -2,11 +2,11 @@
   "private": true,
   "workspaces": [
     "_benchmark",
-    "addon",
+    "addon_neon",
     "addon_napi",
-    "addon-c",
-    "ffi-koffi",
-    "ffi-napi",
+    "addon_c",
+    "ffi_koffi",
+    "ffi_napi",
     "javascript",
     "wasm"
   ],
