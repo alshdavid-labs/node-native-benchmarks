@@ -1,0 +1,20 @@
+[workspace]
+resolver = "2"
+
+members = [
+  "./addon_neon",
+  "./addon_napi",
+  "./ffi_koffi",
+  "./ffi_napi",
+  "./wasm",
+]
+
+[profile.release]
+opt-level = 3
+debug = false
+lto = true
+strip = "debuginfo"
+panic = 'unwind'
+incremental = false
+codegen-units = 1
+rpath = false

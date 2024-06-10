@@ -3,6 +3,7 @@
   "workspaces": [
     "_benchmark",
     "addon",
+    "addon_napi",
     "addon-c",
     "ffi-koffi",
     "ffi-napi",
