@@ -4,15 +4,15 @@ var path = require('path');
 let libPath = undefined
 
 if (process.platform === 'win32') {
-  libPath = path.join(__dirname, './target/release/ffi_koffi.dll')
+  libPath = path.join(__dirname, './ffi_koffi.dll')
 }
 
 if (process.platform === 'darwin') {
-  libPath = path.join(__dirname, './target/release/libffi_koffi.dylib')
+  libPath = path.join(__dirname, './libffi_koffi.dylib')
 }
 
 if (process.platform === 'linux') {
-  libPath = path.join(__dirname, './target/release/libffi_koffi.so')
+  libPath = path.join(__dirname, './libffi_koffi.so')
 }
 
 const lib = koffi.load(libPath);

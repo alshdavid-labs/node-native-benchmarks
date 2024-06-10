@@ -40,8 +40,7 @@ build:
   cd addon_c && npm run build
   cp target/{{profile}}/libaddon_napi.{{dylib}} addon_napi/index.node
   cp target/{{profile}}/libaddon_neon.{{dylib}} addon_neon/index.node
-  cp target/{{profile}}/libffi_koffi.{{dylib}} ffi_koffi/index.node
-  cp target/{{profile}}/libffi_napi.{{dylib}} ffi_napi/index.node
+  cp target/{{profile}}/libffi_koffi.{{dylib}} ffi_koffi
   
 bench:
   node "./_benchmark/index.js"

@@ -1,9 +1,7 @@
 {
   "name": "wasm",
   "version": "1.0.0",
-  "main": "./pkg/example_wasm.js",
-  "types": "./pkg/example_wasm.d.ts",
-  "dependencies": {
-    "ffi-napi": "^4.0.3"
-  }
+  "main": "./pkg/wasm.js",
+  "type": "commonjs",
+  "types": "./pkg/wasm.d.ts"
 }

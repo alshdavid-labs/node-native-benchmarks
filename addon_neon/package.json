@@ -2,7 +2,8 @@
   "name": "addon_neon",
   "version": "0.1.0",
   "description": "",
-  "main": "index.node",
+  "type": "commonjs",
+  "main": "index.js",
   "author": "",
   "license": "ISC"
 }

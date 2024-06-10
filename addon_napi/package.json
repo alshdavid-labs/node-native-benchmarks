@@ -1,8 +1,9 @@
 {
   "name": "addon_napi",
   "version": "0.1.0",
+  "type": "commonjs",
   "description": "",
-  "main": "index.node",
+  "main": "index.js",
   "author": "",
   "license": "ISC"
 }

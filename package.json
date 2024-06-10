@@ -6,7 +6,6 @@
     "addon_napi",
     "addon_c",
     "ffi_koffi",
-    "ffi_napi",
     "javascript",
     "wasm"
   ],

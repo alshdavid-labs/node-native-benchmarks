@@ -1,8 +1,6 @@
-const fs = require('fs')
-const path = require('path')
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import * as url from 'url';
 
-const data = JSON.parse(fs.readFileSync(path.join(__dirname, 'cases.json'), 'utf-8'))
-
-module.exports = {
-  data
-}
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+export const data = JSON.parse(readFileSync(join(__dirname, 'cases.json'), 'utf-8'))

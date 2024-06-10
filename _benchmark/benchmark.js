@@ -1,4 +1,4 @@
-class Result {
+export class Result {
   raw
   
 
@@ -32,7 +32,7 @@ class Result {
 
 }
 
-class Benchmark {
+export class Benchmark {
   ids = new Map()
 
   getId(id) {
@@ -117,10 +117,10 @@ class Benchmark {
     } else {
        return new Result(sortedArr[mid]);
     }
- }
-}
+  }
 
-module.exports = {
-  Benchmark,
-  Result,
+  total(id) {
+    const found = this.getId(id)
+    return new Result(found.reduce((a, b) => a + b, 0))
+  }
 }

@@ -1,28 +1,32 @@
 
-const { data } = require('./data')
-const { Benchmark } = require('./lib')
-const fs = require('fs')
-const path = require('path')
+import { data } from './data/index.js'
+import { Benchmark } from './benchmark.js'
+import { existsSync, rmSync, appendFileSync } from 'node:fs'
+import { join } from 'node:path'
+import * as addon_neon from "addon_neon"
+import * as addon_napi from "addon_napi"
+import * as addon_c from "addon_c"
+import * as ffi_koffi from "ffi_koffi"
+import * as javascript from "javascript"
+import * as wasm from "wasm"
 
-const benchmarks = [
-  "addon_c",
-  "addon_napi",
-  "addon_neon",
-  "ffi_koffi",
-  "ffi_napi",
-  "javascript",
-  "wasm",
-]
+const benchmarks = {
+  addon_c,
+  addon_napi,
+  addon_neon,
+  ffi_koffi,
+  javascript,
+  wasm,
+}
 
+const RETRIES = 3
 const LIMIT = process.env.BENCH_LIMIT ? parseInt(process.env.BENCH_LIMIT) : null
 
 const results = []
 const b = new Benchmark()
 
-for (const NAME of benchmarks) {
-  process.stdout.write(NAME.padEnd(1 + Math.max(...(benchmarks.map(el => el.length)))))
-
-  const lib = require(`../${NAME}`)
+for (const [NAME, lib] of Object.entries(benchmarks)) {
+  process.stdout.write(NAME.padEnd(1 + Math.max(...(Object.keys(benchmarks).map(el => el.length)))))
 
   const funcs = [
     lib.divide,
@@ -31,23 +35,17 @@ for (const NAME of benchmarks) {
   ]
 
   for (const func of funcs) {
-    for (let i = 0; i < data.length; i++) {
-      if (LIMIT !== null && b.count(NAME) >= LIMIT) break
-      const [x, y] = data[i]
+    for (let i = 0; i < RETRIES; i++) {
       b.start(NAME)
-      const result = func(x, y)
-      if (result === undefined) {
-        throw new Error('yo')
+      for (let i = 0; i < data.length; i++) {
+        const result = func(...data[i])
+        if (result === undefined) {
+          throw new Error('Invalid result')
+        }
       }
       const duration = b.end(NAME)
-      if (duration === 0) {
-        i--
-        continue
-      }
       b.commit(NAME, duration)
-      if (i !== 0 && (i / 100_000) % 1 === 0) {
-        process.stdout.write('.')
-      }
+      process.stdout.write('.')
     }
   }
 
@@ -56,33 +54,35 @@ for (const NAME of benchmarks) {
 
 process.stdout.write('\n')
 
-for (const NAME of benchmarks) {
+for (const NAME of Object.keys(benchmarks)) {
   console.log(`Processing Results ${NAME}`)
   results.push({
     Name: NAME,
-    'Min (fs)': b.min(NAME).femtoseconds,
-    'Low Quartile (fs)': b.quartile(NAME, 0.25).femtoseconds,
-    'High Quartile (fs)': b.quartile(NAME, 0.75).femtoseconds,
-    'p99 (fs)': b.quartile(NAME, 0.99).femtoseconds,
-    // 'Max (fs)': b.max(NAME).femtoseconds,          // not useful
-    // 'Average (fs)': b.average(NAME).femtoseconds,  // not useful
-    'Median (fs)': b.median(NAME).femtoseconds,
-    // 'Samples': b.count(NAME)                       // not useful
+    'Min': b.min(NAME).femtoseconds,
+    // 'Low Quartile': b.quartile(NAME, 0.25).milliseconds,
+    // 'High Quartile': b.quartile(NAME, 0.75).milliseconds,
+    // 'p99': b.quartile(NAME, 0.99).milliseconds,
+    'Average': b.average(NAME).milliseconds,
+    'Median': b.median(NAME).milliseconds,
+    'Total': b.total(NAME).milliseconds,
+    'Samples': b.count(NAME)
   })
 }
+
+results.sort((a, b) => a.Total - b.Total)
 
 process.stdout.write('\n')
 console.table(results)
 process.stdout.write('\n')
 
-if (fs.existsSync(path.join(process.cwd(), 'report.csv'))) {
-  fs.rmSync(path.join(process.cwd(), 'report.csv'))
+if (existsSync(join(process.cwd(), 'report.csv'))) {
+  rmSync(join(process.cwd(), 'report.csv'))
 }
 
-fs.appendFileSync(path.join(process.cwd(), 'report.csv'), Object.keys(results[0]).join(','), 'utf8')
-fs.appendFileSync(path.join(process.cwd(), 'report.csv'), '\n', 'utf8')
+appendFileSync(join(process.cwd(), 'report.csv'), Object.keys(results[0]).join(','), 'utf8')
+appendFileSync(join(process.cwd(), 'report.csv'), '\n', 'utf8')
 
 for (const result of results) {
-  fs.appendFileSync(path.join(process.cwd(), 'report.csv'), Object.values(result).join(','), 'utf8')
-  fs.appendFileSync(path.join(process.cwd(), 'report.csv'), '\n', 'utf8')
+  appendFileSync(join(process.cwd(), 'report.csv'), Object.values(result).join(','), 'utf8')
+  appendFileSync(join(process.cwd(), 'report.csv'), '\n', 'utf8')
 }

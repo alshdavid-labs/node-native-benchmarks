@@ -5,7 +5,6 @@ members = [
   "./addon_neon",
   "./addon_napi",
   "./ffi_koffi",
-  "./ffi_napi",
   "./wasm",
 ]
 

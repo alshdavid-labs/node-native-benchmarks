@@ -1,6 +1,7 @@
 {
   "name": "ffi_koffi",
   "version": "1.0.0",
+  "type": "commonjs",
   "main": "index.js",
   "dependencies": {
     "koffi": "^2.6.1"

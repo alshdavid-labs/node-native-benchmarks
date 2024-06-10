@@ -5,6 +5,9 @@ node_modules/
 package-lock.json
 yarn.lock
 *.node
+*.dll
+*.so
+*.dylib
 _benchmark/data/cases.json
 
 # reports

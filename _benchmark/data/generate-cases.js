@@ -1,6 +1,8 @@
-const fs = require('fs')
-const path = require('path')
+import { writeFileSync } from 'node:fs'
+import { join } from 'node:path'
+import * as url from 'url';
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const TOTAL = 1_000_000
 
 const uniqueNumbers = new Set()
@@ -27,4 +29,4 @@ for (let i = 0; i < TOTAL; i++) {
 }
 
 const output = JSON.stringify(cases, null, 2)
-fs.writeFileSync(path.join(__dirname, 'cases.json'), output, 'utf8')
+writeFileSync(join(__dirname, 'cases.json'), output, 'utf8')

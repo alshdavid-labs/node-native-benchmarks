@@ -1,7 +1,8 @@
 {
   "name": "addon_c",
   "version": "1.0.0",
-  "main": "build/Release/addon.node",
+  "main": "./index.js",
+  "type": "commonjs",
   "scripts": {
     "build": "node-gyp rebuild"
   },
